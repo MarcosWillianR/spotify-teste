@@ -31,6 +31,8 @@ const AuthProvider: React.FC = ({ children }) => {
       });
 
       console.log('response: ', response);
+
+      setData({ id: '1234' });
     } catch (err) {
       console.log(err);
     }
