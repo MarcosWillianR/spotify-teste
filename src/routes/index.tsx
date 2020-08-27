@@ -3,14 +3,14 @@ import { Switch } from 'react-router-dom';
 
 import Route from './Route';
 
-import SignIn from '../pages/SignIn';
-import Dashboard from '../pages/Dashboard';
+import Home from '../pages/Home';
+import WebPlayer from '../pages/WebPlayer';
 
 const Routes: React.FC = () => (
   <Switch>
-    <Route exact path="/" component={SignIn} />
+    <Route exact path="/" component={Home} />
 
-    <Route path="/dashboard" component={Dashboard} isPrivate />
+    <Route path="/web-player" component={WebPlayer} isPrivate />
   </Switch>
 );
 

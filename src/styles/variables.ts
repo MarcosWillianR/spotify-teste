@@ -6,6 +6,7 @@ export const GREEN_COLOR2 = '#1DB954';
 
 export const BLUE_COLOR1 = '#2940a8';
 export const BLUE_COLOR2 = '#2D46B9';
+export const BLUE_COLOR3 = '#3646b9';
 
 export const LIGHT_COLOR1 = '#d9dadc';
 
@@ -13,7 +14,8 @@ export const DARK_COLOR1 = '#919496';
 export const DARK_COLOR2 = '#222326';
 export const DARK_COLOR3 = '#616467';
 
-export const FONT_SIZE_12 = '0,750rem';
+export const FONT_SIZE_12 = '0.750rem';
+export const FONT_SIZE_14 = '0.850rem';
 export const FONT_SIZE_16 = '1rem';
 export const FONT_SIZE_32 = '2rem';
 export const FONT_SIZE_48 = '3rem';
