@@ -1,4 +1,6 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect } from 'react';
+
+import { useHistory } from 'react-router-dom';
 
 import {
   Container,
@@ -14,10 +16,28 @@ import { useAuth } from '../../hooks/auth';
 
 const Home: React.FC = () => {
   const { signIn } = useAuth();
+  const { location } = useHistory();
 
-  const handleSignIn = useCallback(async () => {
-    await signIn();
-  }, [signIn]);
+  const authPath = 'https://accounts.spotify.com/authorize';
+  const clientId = '?client_id=c265368bd50d49b2b3c3f9a6e20fc541&';
+  const responseType = '&response_type=code';
+  const redirectUri = '&redirect_uri=http://localhost:3000/';
+
+  useEffect(() => {
+    const spotifyToken = location.search.replace('?code=', '');
+
+    async function signInSpotify() {
+      try {
+        await signIn(spotifyToken);
+      } catch (err) {
+        console.log(err);
+      }
+    }
+
+    if (spotifyToken) {
+      signInSpotify();
+    }
+  }, [location, signIn]);
 
   return (
     <Container>
@@ -40,9 +60,9 @@ const Home: React.FC = () => {
                 <a href="#test">Inscrever-se</a>
               </li>
               <li>
-                <button onClick={handleSignIn} type="button">
+                <a href={`${authPath}${clientId}${responseType}${redirectUri}`}>
                   Entrar
-                </button>
+                </a>
               </li>
             </ul>
           </HeaderNavigation>
