@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 
 import {
   Container,
@@ -10,8 +10,15 @@ import {
 } from './styles';
 
 import spotifyLogo from '../../assets/spotify-logo-white.png';
+import { useAuth } from '../../hooks/auth';
 
 const Home: React.FC = () => {
+  const { signIn } = useAuth();
+
+  const handleSignIn = useCallback(async () => {
+    await signIn();
+  }, [signIn]);
+
   return (
     <Container>
       <Header>
@@ -33,7 +40,9 @@ const Home: React.FC = () => {
                 <a href="#test">Inscrever-se</a>
               </li>
               <li>
-                <button type="button">Entrar</button>
+                <button onClick={handleSignIn} type="button">
+                  Entrar
+                </button>
               </li>
             </ul>
           </HeaderNavigation>
