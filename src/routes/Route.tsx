@@ -5,6 +5,8 @@ import {
   Redirect,
 } from 'react-router-dom';
 
+import { useAuth } from '../hooks/auth';
+
 interface RouteProps extends NativeRouteProps {
   isPrivate?: boolean;
   component: React.ComponentType;
@@ -15,7 +17,7 @@ const Route: React.FC<RouteProps> = ({
   component: Component,
   ...rest
 }) => {
-  const user = null;
+  const { user } = useAuth();
 
   return (
     <NativeRoute

@@ -10,7 +10,7 @@ import qs from 'querystring';
 import api from '../services/apiClient';
 
 interface AuthContextData {
-  user: { id: string };
+  user: User;
   signIn(spotifyToken: string): Promise<void>;
 }
 
@@ -18,10 +18,34 @@ interface SpotifySignBody {
   [key: string]: string;
 }
 
+interface User {
+  id: string;
+  name: string;
+}
+
+interface AuthState {
+  token: string;
+  user: User;
+}
+
 const AuthContext = createContext<AuthContextData>({} as AuthContextData);
 
 const AuthProvider: React.FC = ({ children }) => {
-  const [data, setData] = useState({ id: '123' });
+  const [data, setData] = useState<AuthState>(() => {
+    const token = localStorage.getItem('@Spotify:token');
+    const user = localStorage.getItem('@Spotify:user');
+
+    if (token && user) {
+      api.defaults.headers.authorization = `Bearer ${token}`;
+
+      return {
+        token,
+        user: JSON.parse(user),
+      };
+    }
+
+    return {} as AuthState;
+  });
 
   const signIn = useCallback(async (spotifyToken: string) => {
     try {
@@ -34,20 +58,42 @@ const AuthProvider: React.FC = ({ children }) => {
         redirect_uri: 'http://localhost:3000/',
       };
 
-      const response = await api.post(path, qs.stringify(body), {
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
+      const { data: authResponseData } = await api.post(
+        path,
+        qs.stringify(body),
+        {
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+          },
+        },
+      );
+
+      const { access_token: token } = authResponseData;
+
+      api.defaults.headers.authorization = `Bearer ${token}`;
+
+      const { data: userResponseData } = await api.get('me');
+      const { display_name: name, id } = userResponseData;
+
+      localStorage.setItem('@Spotify:token', token);
+      localStorage.setItem('@Spotify:user', JSON.stringify({ name, id }));
+
+      setData({
+        token,
+        user: {
+          id,
+          name,
         },
       });
-
-      console.log(response);
-      setData({ id: '1234' });
     } catch (err) {
       console.log(err);
     }
   }, []);
 
-  const authData = useMemo(() => ({ signIn, user: data }), [signIn, data]);
+  const authData = useMemo(() => ({ signIn, user: data.user }), [
+    signIn,
+    data.user,
+  ]);
 
   return (
     <AuthContext.Provider value={authData}>{children}</AuthContext.Provider>
