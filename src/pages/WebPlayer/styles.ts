@@ -12,7 +12,6 @@ import {
   FONT_SIZE_12,
   FONT_SIZE_14,
   FONT_SIZE_16,
-  FONT_SIZE_32,
   FONT_SIZE_64,
 } from '../../styles/variables';
 

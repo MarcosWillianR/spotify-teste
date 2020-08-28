@@ -33,7 +33,6 @@ const WebPlayer: React.FC = () => {
   const [recommendationMainImages, setRecommendationMainImages] = useState<
     RecommendationMainImageState
   >({} as RecommendationMainImageState);
-  const [isLoading, setIsLoading] = useState(false);
   const [trackList, setTrackList] = useState<TrackListItem[]>([]);
   const [currentTrack, setCurrentTrack] = useState<TrackListItem>(
     {} as TrackListItem,
@@ -41,8 +40,6 @@ const WebPlayer: React.FC = () => {
 
   useEffect(() => {
     async function getRecommendations() {
-      setIsLoading(true);
-
       const [tracks, artists] = await Promise.all([
         api.get('me/top/tracks', {
           params: {
@@ -98,7 +95,6 @@ const WebPlayer: React.FC = () => {
           }),
         ),
       );
-      setIsLoading(false);
     }
 
     getRecommendations();

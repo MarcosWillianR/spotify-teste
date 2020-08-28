@@ -8,7 +8,6 @@ import {
   BLUE_COLOR3,
   FONT_SIZE_14,
   FONT_SIZE_32,
-  FONT_SIZE_48,
   FONT_SIZE_64,
   FONT_SIZE_80,
 } from '../../styles/variables';
