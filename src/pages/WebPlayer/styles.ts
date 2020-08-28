@@ -1,4 +1,6 @@
 import styled, { css } from 'styled-components';
+import ReactPlayer from 'react-player';
+
 import {
   MAIN_COLOR1,
   MAIN_COLOR2,
@@ -22,6 +24,8 @@ export const Container = styled.main`
   height: 100vh;
   max-width: 1170px;
   margin: 0 auto;
+
+  position: relative;
 `;
 
 export const HeaderContainer = styled.div`
@@ -93,7 +97,7 @@ export const MainTrackList = styled.div`
   display: grid;
   grid-template-columns: 60px minmax(500px, 1fr) repeat(3, minmax(100px, 1fr));
   max-width: 100%;
-  max-height: 0;
+  padding-bottom: 90px;
 
   > strong {
     padding: 0 8px 22px 8px;
@@ -223,4 +227,19 @@ export const MusicAndArtistNameContainer = styled.div`
   }
 `;
 
-export const PlayerContainer = styled.div``;
+export const PlayerContainer = styled.div`
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 99999;
+
+  width: 100%;
+  height: 90px;
+  display: flex;
+  align-items: center;
+  max-width: 1170px;
+  margin: 0 auto;
+`;
+
+export const Player = styled(ReactPlayer)``;

@@ -1,5 +1,4 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import ReactPlayer from 'react-player';
 import { MdPlayArrow } from 'react-icons/md';
 import { FiClock } from 'react-icons/fi';
 
@@ -26,6 +25,7 @@ import {
   ArtistProfile,
   MusicAndArtistNameContainer,
   PlayerContainer,
+  Player,
 } from './styles';
 
 const WebPlayer: React.FC = () => {
@@ -118,73 +118,79 @@ const WebPlayer: React.FC = () => {
   );
 
   return (
-    <Container>
-      <HeaderContainer>
-        <ImageContainer>
-          <img src={recommendationMainImages.image1} alt="recommendation 1" />
-          <img src={recommendationMainImages.image2} alt="recommendation 2" />
-          <img src={recommendationMainImages.image3} alt="recommendation 3" />
-          <img src={recommendationMainImages.image4} alt="recommendation 4" />
-        </ImageContainer>
+    <>
+      <Container>
+        <HeaderContainer>
+          <ImageContainer>
+            <img src={recommendationMainImages.image1} alt="recommendation 1" />
+            <img src={recommendationMainImages.image2} alt="recommendation 2" />
+            <img src={recommendationMainImages.image3} alt="recommendation 3" />
+            <img src={recommendationMainImages.image4} alt="recommendation 4" />
+          </ImageContainer>
 
-        <TitleContainer>
-          <h2>playlist</h2>
-          <h1>Musicas Recomendadas</h1>
-          <strong>{user.name}</strong>
-          <button type="button" onClick={() => signOut()}>
-            Sair
-          </button>
-        </TitleContainer>
-      </HeaderContainer>
+          <TitleContainer>
+            <h2>playlist</h2>
+            <h1>Musicas Recomendadas</h1>
+            <strong>{user.name}</strong>
+            <button type="button" onClick={() => signOut()}>
+              Sair
+            </button>
+          </TitleContainer>
+        </HeaderContainer>
 
-      <MainTrackList>
-        <strong>#</strong>
-        <strong>Título</strong>
-        <strong>Album</strong>
-        <strong>Adicionado em</strong>
-        <strong>
-          <FiClock size={18} />
-        </strong>
+        <MainTrackList>
+          <strong>#</strong>
+          <strong>Título</strong>
+          <strong>Album</strong>
+          <strong>Adicionado em</strong>
+          <strong>
+            <FiClock size={18} />
+          </strong>
 
-        {trackList.length > 0 &&
-          trackList.map((track, index) => (
-            <MainTrackListItem
-              key={track.id}
-              isActive={track.id === currentTrack.id}
-            >
-              <button
-                type="button"
-                onClick={() => handleToggleCurrentTrack(track)}
+          {trackList.length > 0 &&
+            trackList.map((track, index) => (
+              <MainTrackListItem
+                key={track.id}
+                isActive={track.id === currentTrack.id}
               >
-                {index + 1}
-                <MdPlayArrow />
-              </button>
+                <button
+                  type="button"
+                  onClick={() => handleToggleCurrentTrack(track)}
+                >
+                  {index + 1}
+                  <MdPlayArrow />
+                </button>
 
-              <ArtistProfile>
-                <img
-                  src={track.album.album_image_url}
-                  alt={track.album.album_name}
-                />
+                <ArtistProfile>
+                  <img
+                    src={track.album.album_image_url}
+                    alt={track.album.album_name}
+                  />
 
-                <MusicAndArtistNameContainer>
-                  <p>{track.album.music_name}</p>
-                  <strong>{track.album.artist_name}</strong>
-                </MusicAndArtistNameContainer>
-              </ArtistProfile>
+                  <MusicAndArtistNameContainer>
+                    <p>{track.album.music_name}</p>
+                    <strong>{track.album.artist_name}</strong>
+                  </MusicAndArtistNameContainer>
+                </ArtistProfile>
 
-              <span>{track.album.album_name}</span>
+                <span>{track.album.album_name}</span>
 
-              <span>{track.release_date}</span>
+                <span>{track.release_date}</span>
 
-              <span>{track.formattedDuration}</span>
-            </MainTrackListItem>
-          ))}
-      </MainTrackList>
-
+                <span>{track.formattedDuration}</span>
+              </MainTrackListItem>
+            ))}
+        </MainTrackList>
+      </Container>
       <PlayerContainer>
-        <h1>esse é o player</h1>
+        <Player
+          controls
+          url={currentTrack?.album?.preview_url}
+          width="100%"
+          height="100%"
+        />
       </PlayerContainer>
-    </Container>
+    </>
   );
 };
 
