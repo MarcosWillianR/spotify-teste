@@ -9,6 +9,14 @@ import { useAuth } from '../../hooks/auth';
 import formatMiliseconds from '../../helpers/formatMiliseconds';
 
 import {
+  ArtistItem,
+  RecommendationMainImageState,
+  TrackItem,
+  TrackListItem,
+  recommendationsResponseItem,
+} from './types';
+
+import {
   Container,
   ImageContainer,
   HeaderContainer,
@@ -17,58 +25,8 @@ import {
   MainTrackListItem,
   ArtistProfile,
   MusicAndArtistNameContainer,
+  PlayerContainer,
 } from './styles';
-
-interface TrackItem {
-  id: string;
-}
-
-interface ArtistItem {
-  id: string;
-}
-
-interface RecommendationMainImageState {
-  image1: string;
-  image2: string;
-  image3: string;
-  image4: string;
-}
-
-interface RecommendationsAlbumImages {
-  url: string;
-}
-
-interface RecommendationsArtists {
-  id: string;
-  name: string;
-}
-
-interface recommendationsResponseItem {
-  id: string;
-  album: {
-    images: RecommendationsAlbumImages[];
-    name: string;
-    release_date: string;
-    artists: RecommendationsArtists[];
-  };
-  name: string;
-  duration_ms: number;
-  preview_url: string;
-}
-
-interface TrackListItem {
-  id: string;
-  album: {
-    album_image_url: string;
-    album_name: string;
-    music_name: string;
-    artist_name: string;
-    preview_url: string;
-  };
-  release_date: string;
-  duration_ms: number;
-  formattedDuration: string;
-}
 
 const WebPlayer: React.FC = () => {
   const { user, signOut } = useAuth();
@@ -222,6 +180,10 @@ const WebPlayer: React.FC = () => {
             </MainTrackListItem>
           ))}
       </MainTrackList>
+
+      <PlayerContainer>
+        <h1>esse é o player</h1>
+      </PlayerContainer>
     </Container>
   );
 };

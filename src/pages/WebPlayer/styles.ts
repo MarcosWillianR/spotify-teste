@@ -222,3 +222,5 @@ export const MusicAndArtistNameContainer = styled.div`
     font-weight: 400;
   }
 `;
+
+export const PlayerContainer = styled.div``;
