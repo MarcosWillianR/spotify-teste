@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useEffect } from 'react';
 
 import { useHistory } from 'react-router-dom';
 
@@ -14,16 +14,18 @@ import {
 import spotifyLogo from '../../assets/spotify-logo-white.png';
 import { useAuth } from '../../hooks/auth';
 
+import { oauth2SignInLink } from '../../config/spotify';
+
 const Home: React.FC = () => {
   const { signIn } = useAuth();
   const { location } = useHistory();
-
-  const scopes = '&scope=user-top-read';
-
-  const authPath = 'https://accounts.spotify.com/authorize';
-  const clientId = '?client_id=c265368bd50d49b2b3c3f9a6e20fc541&';
-  const responseType = '&response_type=code';
-  const redirectUri = '&redirect_uri=http://localhost:3000/';
+  const {
+    path,
+    clientId,
+    responseType,
+    redirectUri,
+    scopes,
+  } = oauth2SignInLink;
 
   useEffect(() => {
     const spotifyToken = location.search.replace('?code=', '');
@@ -63,7 +65,7 @@ const Home: React.FC = () => {
               </li>
               <li>
                 <a
-                  href={`${authPath}${clientId}${responseType}${redirectUri}${scopes}`}
+                  href={`${path}${clientId}${responseType}${redirectUri}${scopes}`}
                 >
                   Entrar
                 </a>
@@ -83,7 +85,9 @@ const Home: React.FC = () => {
           de crédito.
         </p>
 
-        <button type="button">Entrar agora</button>
+        <a href={`${path}${clientId}${responseType}${redirectUri}${scopes}`}>
+          Entrar agora
+        </a>
       </MainContent>
 
       <Footer>

@@ -6,6 +6,7 @@ import React, {
   useContext,
 } from 'react';
 import qs from 'querystring';
+import { signInRequestBody } from '../config/spotify';
 
 import api from '../services/apiClient';
 
@@ -62,13 +63,13 @@ const AuthProvider: React.FC = ({ children }) => {
 
   const signIn = useCallback(async (spotifyToken: string) => {
     try {
-      const path = 'https://accounts.spotify.com/api/token';
+      const { path } = signInRequestBody;
+
+      delete signInRequestBody.path;
+
       const body: SpotifySignBody = {
-        grant_type: 'authorization_code',
+        ...signInRequestBody,
         code: spotifyToken,
-        client_id: 'c265368bd50d49b2b3c3f9a6e20fc541',
-        client_secret: '51ffe67d3a064fa5b34fc2c10fe873d0',
-        redirect_uri: 'http://localhost:3000/',
       };
 
       const { data: authResponseData } = await api.post(

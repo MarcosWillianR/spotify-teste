@@ -114,11 +114,12 @@ export const MainContent = styled.main`
     color: ${GREEN_COLOR1};
   }
 
-  button {
+  a {
+    text-decoration: none;
     width: 290px;
     margin-top: 32px;
+    text-align: center;
 
-    border: 0;
     background: ${GREEN_COLOR1};
     color: ${BLUE_COLOR1};
     font-weight: 700;
