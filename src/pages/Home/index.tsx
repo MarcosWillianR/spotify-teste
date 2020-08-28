@@ -1,20 +1,21 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 
 import { useHistory } from 'react-router-dom';
 
+import spotifyLogo from '../../assets/spotify-logo-white.png';
+import { useAuth } from '../../hooks/auth';
+
+import { oauth2SignInLink } from '../../config/spotify';
+
 import {
   Container,
+  HamburguerIcon,
   Header,
   HeaderContent,
   HeaderNavigation,
   MainContent,
   Footer,
 } from './styles';
-
-import spotifyLogo from '../../assets/spotify-logo-white.png';
-import { useAuth } from '../../hooks/auth';
-
-import { oauth2SignInLink } from '../../config/spotify';
 
 const Home: React.FC = () => {
   const { signIn } = useAuth();
@@ -26,6 +27,7 @@ const Home: React.FC = () => {
     redirectUri,
     scopes,
   } = oauth2SignInLink;
+  const [menuMobileIsOpen, setMenuMobileIsOpen] = useState(false);
 
   useEffect(() => {
     const spotifyToken = location.search.replace('?code=', '');
@@ -43,13 +45,21 @@ const Home: React.FC = () => {
     }
   }, [location, signIn]);
 
+  const toggleMenuMobile = useCallback(() => {
+    setMenuMobileIsOpen(state => !state);
+  }, []);
+
   return (
     <Container>
       <Header>
         <HeaderContent>
           <img src={spotifyLogo} alt="Spotify - Pagina inicial" />
 
-          <HeaderNavigation>
+          <HeaderNavigation menuIsOpen={menuMobileIsOpen}>
+            <button type="button" onClick={toggleMenuMobile}>
+              <HamburguerIcon menuIsOpen={menuMobileIsOpen} />
+            </button>
+
             <ul>
               <li>
                 <a href="#test">Premium</a>

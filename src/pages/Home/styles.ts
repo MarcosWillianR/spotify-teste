@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import {
   MAIN_COLOR1,
   MAIN_COLOR2,
@@ -7,12 +7,67 @@ import {
   BLUE_COLOR1,
   BLUE_COLOR3,
   FONT_SIZE_14,
+  FONT_SIZE_32,
   FONT_SIZE_80,
 } from '../../styles/variables';
+
+interface HamburguerIconProps {
+  menuIsOpen: boolean;
+}
+
+interface HeaderNavigationProps {
+  menuIsOpen: boolean;
+}
 
 export const Container = styled.div`
   width: 100%;
   height: 100%;
+`;
+
+export const HamburguerIcon = styled.div<HamburguerIconProps>`
+  width: 40px;
+  height: 3px;
+  background: #fff;
+  border-radius: 6px;
+  transition: all 0.5s ease-in-out;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &:before,
+  &:after {
+    content: '';
+    position: absolute;
+    width: 40px;
+    height: 3px;
+    background: #fff;
+    border-radius: 6px;
+    transition: all 0.5s ease-in-out;
+  }
+
+  &:before {
+    transform: translateY(-12px);
+  }
+
+  &:after {
+    transform: translateY(12px);
+  }
+
+  ${props =>
+    props.menuIsOpen &&
+    css`
+      transform: translateX(-50px);
+      background: transparent;
+
+      &:before {
+        transform: rotate(45deg) translate(35px, -35px);
+      }
+
+      &:after {
+        transform: rotate(-45deg) translate(35px, 35px);
+      }
+    `}
 `;
 
 export const Header = styled.header`
@@ -28,6 +83,7 @@ export const Header = styled.header`
 `;
 
 export const HeaderContent = styled.div`
+  height: 80px;
   padding: 0 22px;
   max-width: 1170px;
   margin: 0 auto;
@@ -36,28 +92,13 @@ export const HeaderContent = styled.div`
   justify-content: space-between;
 `;
 
-export const HeaderNavigation = styled.nav`
+export const HeaderNavigation = styled.nav<HeaderNavigationProps>`
   ul {
     display: flex;
     align-items: center;
 
     li {
       margin-bottom: 1px;
-
-      &:nth-of-type(3) {
-        a {
-          display: flex;
-          align-items: center;
-          &:after {
-            content: '';
-            display: inline-block;
-            width: 1px;
-            height: 16px;
-            background-color: ${MAIN_COLOR1};
-            margin-left: 34px;
-          }
-        }
-      }
 
       a {
         text-decoration: none;
@@ -81,6 +122,85 @@ export const HeaderNavigation = styled.nav`
           color: ${GREEN_COLOR2};
         }
       }
+
+      &:nth-of-type(3) {
+        a {
+          display: flex;
+          align-items: center;
+          &:after {
+            content: '';
+            display: inline-block;
+            width: 1px;
+            height: 16px;
+            background-color: ${MAIN_COLOR1};
+            margin-left: 34px;
+          }
+        }
+      }
+    }
+  }
+
+  > button {
+    display: none;
+    position: relative;
+    z-index: 99999;
+    background: 0;
+    border: 0;
+
+    justify-content: center;
+    align-items: center;
+    width: 60px;
+    height: 60px;
+
+    transition: all 0.5s ease-in-out;
+  }
+
+  @media (max-width: 760px) {
+    display: flex;
+    flex-wrap: wrap;
+
+    ul {
+      width: 100%;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.9);
+      display: ${props => (props.menuIsOpen ? 'flex' : 'none')};
+      flex-direction: column;
+      position: absolute;
+      top: 80px;
+      left: 0;
+      right: 0;
+
+      li {
+        width: 100%;
+        text-align: center;
+        &:nth-of-type(3) a {
+          display: block;
+          &:after {
+            display: none;
+          }
+        }
+
+        a {
+          font-size: ${FONT_SIZE_32};
+          font-weight: 500;
+          display: block;
+        }
+
+        & + li {
+          margin-top: 22px;
+        }
+
+        &:last-of-type {
+          a {
+            font-weight: 700;
+          }
+        }
+      }
+    }
+
+    > button {
+      width: 100%;
+      display: flex;
     }
   }
 `;
