@@ -20,7 +20,7 @@
 </p>
 
 <h1 align="center">
-    <img alt="Spotify" title="#Spotify" src="src/assets/spotify-logo-white.png" width="250" height="80" />
+    <img alt="Spotify" title="#Spotify" src="src/assets/spotify-logo-black.png" width="250" height="80" />
 </h1>
 
 <h4 align="center">
