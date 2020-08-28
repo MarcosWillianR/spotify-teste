@@ -1,14 +1,22 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import ReactPlayer from 'react-player';
+import { MdPlayArrow } from 'react-icons/md';
+import { FiClock } from 'react-icons/fi';
 
 import api from '../../services/apiClient';
 import { useAuth } from '../../hooks/auth';
+
+import formatMiliseconds from '../../helpers/formatMiliseconds';
 
 import {
   Container,
   ImageContainer,
   HeaderContainer,
   TitleContainer,
+  MainTrackList,
+  MainTrackListItem,
+  ArtistProfile,
+  MusicAndArtistNameContainer,
 } from './styles';
 
 interface TrackItem {
@@ -30,11 +38,36 @@ interface RecommendationsAlbumImages {
   url: string;
 }
 
+interface RecommendationsArtists {
+  id: string;
+  name: string;
+}
+
 interface recommendationsResponseItem {
   id: string;
   album: {
     images: RecommendationsAlbumImages[];
+    name: string;
+    release_date: string;
+    artists: RecommendationsArtists[];
   };
+  name: string;
+  duration_ms: number;
+  preview_url: string;
+}
+
+interface TrackListItem {
+  id: string;
+  album: {
+    album_image_url: string;
+    album_name: string;
+    music_name: string;
+    artist_name: string;
+    preview_url: string;
+  };
+  release_date: string;
+  duration_ms: number;
+  formattedDuration: string;
 }
 
 const WebPlayer: React.FC = () => {
@@ -43,6 +76,10 @@ const WebPlayer: React.FC = () => {
     RecommendationMainImageState
   >({} as RecommendationMainImageState);
   const [isLoading, setIsLoading] = useState(false);
+  const [trackList, setTrackList] = useState<TrackListItem[]>([]);
+  const [currentTrack, setCurrentTrack] = useState<TrackListItem>(
+    {} as TrackListItem,
+  );
 
   useEffect(() => {
     async function getRecommendations() {
@@ -86,16 +123,41 @@ const WebPlayer: React.FC = () => {
         image4: formattedForMainImage[3].album.images[0].url,
       });
 
-      console.log(recommendationsResponse);
+      setTrackList(
+        recommendationsResponse.map(
+          ({ id, album, duration_ms, name, preview_url }) => ({
+            id,
+            duration_ms,
+            formattedDuration: formatMiliseconds(duration_ms),
+            release_date: album.release_date,
+            album: {
+              album_image_url: album.images[0].url,
+              album_name: album.name,
+              artist_name: album.artists[0].name,
+              music_name: name,
+              preview_url,
+            },
+          }),
+        ),
+      );
       setIsLoading(false);
     }
 
     getRecommendations();
   }, [user]);
 
-  useEffect(() => {
-    console.log('recommendationMainImages: ', recommendationMainImages);
-  }, [recommendationMainImages]);
+  const handleToggleCurrentTrack = useCallback(
+    (trackItem: TrackListItem) => {
+      const sameTrack = currentTrack.id === trackItem.id;
+
+      if (sameTrack) {
+        setCurrentTrack({} as TrackListItem);
+      } else {
+        setCurrentTrack(trackItem);
+      }
+    },
+    [currentTrack],
+  );
 
   return (
     <Container>
@@ -116,6 +178,50 @@ const WebPlayer: React.FC = () => {
           </button>
         </TitleContainer>
       </HeaderContainer>
+
+      <MainTrackList>
+        <strong>#</strong>
+        <strong>Título</strong>
+        <strong>Album</strong>
+        <strong>Adicionado em</strong>
+        <strong>
+          <FiClock size={18} />
+        </strong>
+
+        {trackList.length > 0 &&
+          trackList.map((track, index) => (
+            <MainTrackListItem
+              key={track.id}
+              isActive={track.id === currentTrack.id}
+            >
+              <button
+                type="button"
+                onClick={() => handleToggleCurrentTrack(track)}
+              >
+                {index + 1}
+                <MdPlayArrow />
+              </button>
+
+              <ArtistProfile>
+                <img
+                  src={track.album.album_image_url}
+                  alt={track.album.album_name}
+                />
+
+                <MusicAndArtistNameContainer>
+                  <p>{track.album.music_name}</p>
+                  <strong>{track.album.artist_name}</strong>
+                </MusicAndArtistNameContainer>
+              </ArtistProfile>
+
+              <span>{track.album.album_name}</span>
+
+              <span>{track.release_date}</span>
+
+              <span>{track.formattedDuration}</span>
+            </MainTrackListItem>
+          ))}
+      </MainTrackList>
     </Container>
   );
 };
