@@ -23,6 +23,12 @@
     <img alt="Spotify" title="#Spotify" src="src/assets/spotify-logo-black.png" width="250" height="80" />
 </h1>
 
+<p align="center">
+ <a href="#-tecnologias">Tecnologias</a> •
+ <a href="#-autor">Autor</a> •
+ <a target="_blank" href="https://optimistic-jepsen-741cfc.netlify.app/">Acessar o projeto pelo Netlify</a>
+</p>
+
 <h4 align="center">
 	🚧  Teste Concluído 🚧
 </h4>
