@@ -15,9 +15,13 @@
   </a>
 
   <a href="https://github.com/MarcosWillianR">
-    <img alt="Feito pela Rocketseat" src="http://img.shields.io/badge/feito%20por-Marcos%20Willian-%117EFF">
+    <img alt="Feito por Marcos Willian" src="http://img.shields.io/badge/feito%20por-Marcos%20Willian-%117EFF">
   </a>
 </p>
+
+<h1 align="center">
+    <img alt="Spotify" title="#Spotify" src="src/assets/spotify-logo-white.png" width="250" height="80" />
+</h1>
 
 <h4 align="center">
 	🚧  Teste Concluído 🚧
