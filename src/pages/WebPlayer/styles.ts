@@ -12,6 +12,7 @@ import {
   FONT_SIZE_12,
   FONT_SIZE_14,
   FONT_SIZE_16,
+  FONT_SIZE_32,
   FONT_SIZE_64,
 } from '../../styles/variables';
 
@@ -36,12 +37,15 @@ export const HeaderContainer = styled.div`
 
   display: flex;
   align-items: flex-end;
+
+  @media (max-width: 760px) {
+    min-height: auto;
+  }
 `;
 
 export const ImageContainer = styled.div`
   width: 232px;
-  height: 232px;
-
+  max-height: 100%;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   grid-template-rows: repeat(1, 1fr);
@@ -50,6 +54,19 @@ export const ImageContainer = styled.div`
 
   img {
     max-width: 100%;
+  }
+
+  @media (min-width: 961px) {
+    height: 232px;
+  }
+
+  @media (min-width: 760px) and (max-width: 960px) {
+    height: auto;
+  }
+
+  @media (max-width: 500px) {
+    width: 122px;
+    height: 122px;
   }
 `;
 
@@ -63,10 +80,19 @@ export const TitleContainer = styled.div`
   }
 
   h1 {
-    font-size: ${FONT_SIZE_64};
-    line-height: ${FONT_SIZE_64};
-    margin: 32px 0 22px 0;
     font-weight: 900;
+    margin: 32px 0 22px 0;
+
+    @media (min-width: 961px) {
+      font-size: ${FONT_SIZE_64};
+      line-height: ${FONT_SIZE_64};
+      margin: 32px 0 22px 0;
+    }
+
+    @media (max-width: 500px) {
+      font-size: ${FONT_SIZE_16};
+      line-height: ${FONT_SIZE_16};
+    }
   }
 
   strong {
@@ -114,6 +140,31 @@ export const MainTrackList = styled.div`
 
     &:nth-of-type(5) {
       text-align: right;
+    }
+  }
+
+  @media (max-width: 960px) {
+    grid-template-columns: 60px minmax(400px, 1fr) 1fr 120px;
+
+    strong:nth-of-type(4) {
+      display: none;
+    }
+  }
+
+  @media (max-width: 760px) {
+    grid-template-columns: 60px minmax(300px, 1fr) 60px;
+    padding-bottom: 60px;
+    strong:nth-of-type(3) {
+      display: none;
+    }
+  }
+
+  @media (max-width: 500px) {
+    grid-template-columns: 60px minmax(100px, 300px);
+    padding-bottom: 60px;
+
+    strong:nth-of-type(5) {
+      display: none;
     }
   }
 `;
@@ -192,6 +243,30 @@ export const MainTrackListItem = styled.div<MainTrackListItemProps>`
         }
       }
     `}
+
+  @media (max-width: 960px) {
+    grid-template-columns: 60px minmax(400px, 1fr) 1fr 120px;
+
+    span:nth-of-type(2) {
+      display: none;
+    }
+  }
+
+  @media (max-width: 760px) {
+    grid-template-columns: 60px minmax(300px, 1fr) 60px;
+
+    span:nth-of-type(1) {
+      display: none;
+    }
+  }
+
+  @media (max-width: 500px) {
+    grid-template-columns: 60px minmax(100px, 300px);
+
+    span:nth-of-type(3) {
+      display: none;
+    }
+  }
 `;
 
 export const ArtistProfile = styled.div`
@@ -210,13 +285,24 @@ export const MusicAndArtistNameContainer = styled.div`
     font-size: ${FONT_SIZE_16};
     color: ${MAIN_COLOR1};
     font-weight: 700;
-    max-width: 400px;
 
     overflow: hidden;
     text-overflow: ellipsis;
     display: -webkit-box;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 1;
+
+    @media (min-width: 961px) {
+      max-width: 400px;
+    }
+
+    @media (max-width: 760px) {
+      max-width: 200px;
+    }
+
+    @media (max-width: 500px) {
+      max-width: 100px;
+    }
   }
 
   strong {
@@ -240,6 +326,10 @@ export const PlayerContainer = styled.div`
   align-items: center;
   max-width: 1170px;
   margin: 0 auto;
+
+  @media (min-width: 760px) {
+    height: 60px;
+  }
 `;
 
 export const Player = styled(ReactPlayer)``;
