@@ -18,6 +18,8 @@ const Home: React.FC = () => {
   const { signIn } = useAuth();
   const { location } = useHistory();
 
+  const scopes = '&scope=user-top-read';
+
   const authPath = 'https://accounts.spotify.com/authorize';
   const clientId = '?client_id=c265368bd50d49b2b3c3f9a6e20fc541&';
   const responseType = '&response_type=code';
@@ -60,7 +62,9 @@ const Home: React.FC = () => {
                 <a href="#test">Inscrever-se</a>
               </li>
               <li>
-                <a href={`${authPath}${clientId}${responseType}${redirectUri}`}>
+                <a
+                  href={`${authPath}${clientId}${responseType}${redirectUri}${scopes}`}
+                >
                   Entrar
                 </a>
               </li>

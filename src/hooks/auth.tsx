@@ -12,6 +12,7 @@ import api from '../services/apiClient';
 interface AuthContextData {
   user: User;
   signIn(spotifyToken: string): Promise<void>;
+  signOut(): void;
 }
 
 interface SpotifySignBody {
@@ -46,6 +47,18 @@ const AuthProvider: React.FC = ({ children }) => {
 
     return {} as AuthState;
   });
+
+  const signOut = useCallback(() => {
+    const localKeys = ['@Spotify:token', '@Spotify:user'];
+
+    localKeys.forEach(keys => {
+      localStorage.removeItem(keys);
+    });
+
+    api.defaults.headers.authorization = '';
+
+    setData({} as AuthState);
+  }, []);
 
   const signIn = useCallback(async (spotifyToken: string) => {
     try {
@@ -90,9 +103,10 @@ const AuthProvider: React.FC = ({ children }) => {
     }
   }, []);
 
-  const authData = useMemo(() => ({ signIn, user: data.user }), [
+  const authData = useMemo(() => ({ signIn, user: data.user, signOut }), [
     signIn,
     data.user,
+    signOut,
   ]);
 
   return (

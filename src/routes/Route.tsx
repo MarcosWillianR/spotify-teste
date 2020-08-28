@@ -28,7 +28,7 @@ const Route: React.FC<RouteProps> = ({
         ) : (
           <Redirect
             to={{
-              pathname: user ? '/dashboard' : '/',
+              pathname: user ? '/web-player' : '/',
               state: { from: location },
             }}
           />
