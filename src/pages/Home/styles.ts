@@ -8,6 +8,8 @@ import {
   BLUE_COLOR3,
   FONT_SIZE_14,
   FONT_SIZE_32,
+  FONT_SIZE_48,
+  FONT_SIZE_64,
   FONT_SIZE_80,
 } from '../../styles/variables';
 
@@ -254,10 +256,34 @@ export const MainContent = styled.main`
       background: ${MAIN_COLOR1};
     }
   }
+
+  @media (max-width: 760px) {
+    background-size: 100%;
+    height: calc(100vh - 122px);
+    min-height: 600px;
+    background-position: 85% 110%;
+
+    h1 {
+      font-size: ${FONT_SIZE_64};
+      line-height: ${FONT_SIZE_64};
+      font-weight: 900;
+    }
+
+    p {
+      max-width: 350px;
+      text-align: center;
+      margin: 22px;
+    }
+
+    a {
+      width: 210px;
+    }
+  }
 `;
 
 export const Footer = styled.footer`
   max-width: 1170px;
+  min-height: auto;
   margin: 0 auto;
   padding: 38px 22px;
 
